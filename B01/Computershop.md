@@ -39,6 +39,9 @@ Befindet sich im [MockData](./MockData) Verzeichniss, die Reihenfolge ist wichti
 - [Order](./MockData/order.sql)
 - [Article_Order](./MockData/article_order.sql)
 
+Für Aufgabe 9 und 10 braucht es noch ein zusätzliches SQL-Skript:
+[Unordered Articles](./MockData/unordered_articles.sql)
+
 ## 6 Bestellung eines Kunden
 Erstellen Sie einen SQL-Skript, mit dem alle Bestellungen eines Kunden mit allen Angaben (Kunde, Artikel, Lieferant usw.) aufgelistet werden, so dass pro Artikel einer Bestellung eine Tabellenzeile ausgegeben wird.
 
@@ -63,4 +66,39 @@ SELECT * FROM `customer` as c
 JOIN `order` as o ON o.fk_customer_id = c.id
 WHERE c.id = 2
 ORDER BY o.order_date DESC LIMIT 1;
+```
+
+## 8 Kundenumsatz
+Erstellen Sie einen SQL-Skript, mit dem eine Liste ausgegeben wird, wieviel Umsatz ein Kunde gemacht hat.
+
+### My Solution
+```sql
+SELECT c.given_name as `customer_name`, c.family_name as `family_name`, SUM( art_ord.article_amount * art.price ) as `Money Spent` FROM `customer` as c
+JOIN `order` as o ON o.fk_customer_id = c.id
+JOIN `article_order` as art_ord ON art_ord.fk_order_id = o.id
+JOIN `article` as art ON art.id = art_ord.fk_article_id
+WHERE c.id = 3;
+```
+
+## 9 Anzahl bestellte Artikel
+Erstellen Sie einen SQL-Skript, mit dem eine Statistik ausgegeben werden kann, wievielmal jeder Artikel bestellt wurde. Wurde ein Artikel nie bestellt, so wird für die Anzahl eine 0 ausgegeben.
+
+### My Solution
+```sql
+SELECT art.name as `article`, COALESCE(sum(art_ord.article_amount),0) as `ordered_amount`  from `article` as art
+Left JOIN `article_order` as art_ord on art_ord.fk_article_id = art.id
+GROUP BY art.name;
+```
+
+## 10 Nicht bestellte Artikel
+Erstellen Sie einen SQL-Skript, mit dem eine Liste ausgegeben wird, mit allen Artikeln, die nie bestellt worden sind.
+
+### My Solution
+```sql
+SELECT `articles`.`article` from (
+SELECT art.name as `article`, COALESCE(sum(art_ord.article_amount),0) as `ordered_amount`  from `article` as art
+Left JOIN `article_order` as art_ord on art_ord.fk_article_id = art.id
+GROUP BY art.name
+) as `articles`
+WHERE `articles`.`ordered_amount` = 0
 ```
