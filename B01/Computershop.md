@@ -53,3 +53,14 @@ JOIN `company` as com ON com.id = art.fk_delivery_company_id
 JOIN `company`as comp ON comp.id = art.fk_producer_company_id
 WHERE c.id = 1
 ```
+
+## 7 Last Order
+Erstellen Sie einen SQL-Skript, mit dem die letzte Bestellung eines Kunden mit allen Angaben (Kunde, Artikel, Lieferant usw.) aufgelistet wird.
+
+### My Solution
+```sql
+SELECT * FROM `customer` as c
+JOIN `order` as o ON o.fk_customer_id = c.id
+WHERE c.id = 2
+ORDER BY o.order_date DESC LIMIT 1;
+```
