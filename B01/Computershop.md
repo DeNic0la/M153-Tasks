@@ -41,3 +41,15 @@ Befindet sich im [MockData](./MockData) Verzeichniss, die Reihenfolge ist wichti
 
 ## 6 Bestellung eines Kunden
 Erstellen Sie einen SQL-Skript, mit dem alle Bestellungen eines Kunden mit allen Angaben (Kunde, Artikel, Lieferant usw.) aufgelistet werden, so dass pro Artikel einer Bestellung eine Tabellenzeile ausgegeben wird.
+
+### My Solution
+```sql
+SELECT adr.city as `customer_city`,c.given_name as `customer_name`,c.family_name as `customer_family_name`, art_ord.article_amount as `ordered_amount`, com.name as `delievery_company`,comp.name as `producer_company`,art.name as `order_article`, art.price as `article_single_price` FROM `customer` as c 
+JOIN `adress` as adr ON adr.fk_customer_id = c.id 
+JOIN `order` as ord ON ord.fk_customer_id = c.id
+JOIN `article_order` as art_ord ON art_ord.fk_order_id = ord.id
+JOIN `article` as art ON art.id = art_ord.fk_article_id
+JOIN `company` as com ON com.id = art.fk_delivery_company_id
+JOIN `company`as comp ON comp.id = art.fk_producer_company_id
+WHERE c.id = 1
+```
