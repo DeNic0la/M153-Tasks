@@ -1,17 +1,18 @@
-CREATE TABLE `Customer`(
+USE fioretti_M153;
+CREATE TABLE `customer`(
     `id` INT NOT NULL AUTO_INCREMENT,
     `given_name` VARCHAR(255) NOT NULL,
     `family_name` VARCHAR(255) NOT NULL,
     PRIMARY KEY (id)
 );
 
-CREATE TABLE `Order`(
+CREATE TABLE `order`(
     `id` INT NOT NULL AUTO_INCREMENT,
     `fk_customer_id` INT NOT NULL,
     `order_date` DATE NOT NULL,
     PRIMARY KEY (id)
 );
-CREATE TABLE `Article`(
+CREATE TABLE `article`(
     `id` INT NOT NULL AUTO_INCREMENT,
     `fk_delivery_company_id` INT NULL,
     `fk_producer_company_id` INT NULL,
@@ -19,38 +20,38 @@ CREATE TABLE `Article`(
     `price` INT NOT NULL,
     PRIMARY KEY (id)
 );
-CREATE TABLE `Article_Order`(
+CREATE TABLE `article_order`(
     `id` INT NOT NULL AUTO_INCREMENT,
     `fk_order_id` INT NULL,
     `fk_article_id` INT NULL,
     `article_amount` INT NOT NULL,
     PRIMARY KEY (id)
 );
-CREATE TABLE `Adress`(
+CREATE TABLE `adress`(
     `id` INT NOT NULL AUTO_INCREMENT,
     `fk_customer_id` INT NULL,
     `street` VARCHAR(255) NOT NULL,
     `house_number` VARCHAR(255) NOT NULL,
-    `zip_code` INT NOT NULL,
+    `zip_code` VARCHAR(255) NOT NULL,
     `city` VARCHAR(255) NOT NULL,
     PRIMARY KEY (id)
 );
-CREATE TABLE `Company`(
+CREATE TABLE `company`(
     `id` INT NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(255) NOT NULL,
     PRIMARY KEY (id)
 );
 /* COMMIT Before here*/
 ALTER TABLE
-    `Order` 
-    ADD FOREIGN KEY(`fk_customer_id`) REFERENCES `Customer`(`id`);
+    `order`
+    ADD FOREIGN KEY(`fk_customer_id`) REFERENCES `customer`(`id`);
 ALTER TABLE
-    `Article` ADD FOREIGN KEY(`fk_delivery_company_id`) REFERENCES `Company`(`id`);
+    `article` ADD FOREIGN KEY(`fk_delivery_company_id`) REFERENCES `company`(`id`);
 ALTER TABLE
-    `Article` ADD FOREIGN KEY(`fk_producer_company_id`) REFERENCES `Company`(`id`);
+    `article` ADD FOREIGN KEY(`fk_producer_company_id`) REFERENCES `company`(`id`);
 ALTER TABLE
-    `Article_Order` ADD FOREIGN KEY(`fk_order_id`) REFERENCES `Order`(`id`);
+    `article_order` ADD FOREIGN KEY(`fk_order_id`) REFERENCES `order`(`id`);
 ALTER TABLE
-    `Article_Order` ADD FOREIGN KEY(`fk_article_id`) REFERENCES `Article`(`id`);
+    `article_order` ADD FOREIGN KEY(`fk_article_id`) REFERENCES `article`(`id`);
 ALTER TABLE
-    `Adress` ADD FOREIGN KEY(`fk_customer_id`) REFERENCES `Customer`(`id`);
+    `adress` ADD FOREIGN KEY(`fk_customer_id`) REFERENCES `customer`(`id`);
