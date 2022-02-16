@@ -77,7 +77,7 @@ SELECT c.given_name as `customer_name`, c.family_name as `family_name`, SUM( art
 JOIN `order` as o ON o.fk_customer_id = c.id
 JOIN `article_order` as art_ord ON art_ord.fk_order_id = o.id
 JOIN `article` as art ON art.id = art_ord.fk_article_id
-WHERE c.id = 3;
+GROUP BY c.id
 ```
 
 ## 9 Anzahl bestellte Artikel
