@@ -73,11 +73,11 @@ Erstellen Sie einen SQL-Skript, mit dem eine Liste ausgegeben wird, wieviel Umsa
 
 ### My Solution
 ```sql
-SELECT c.given_name as `customer_name`, c.family_name as `family_name`, SUM( art_ord.article_amount * art.price ) as `Money Spent` FROM `customer` as c
+SELECT c.given_name as `customer_name`, c.family_name as `family_name`, Format(SUM( art_ord.article_amount * art.price ),2) as `Money Spent` FROM `customer` as c
 JOIN `order` as o ON o.fk_customer_id = c.id
 JOIN `article_order` as art_ord ON art_ord.fk_order_id = o.id
 JOIN `article` as art ON art.id = art_ord.fk_article_id
-GROUP BY c.id
+GROUP BY c.id;
 ```
 
 ## 9 Anzahl bestellte Artikel
